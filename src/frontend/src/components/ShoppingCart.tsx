@@ -41,7 +41,6 @@ export class ShoppingCart extends React.Component<ShoppingCartProps, ShoppingCar
   }
 
   displayNutriscore = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    // TODO check how to re-render it
     this.setState({
       ...this.state,
       displaySmartRecommendation: DisplaySmartRecommendation.AI_NUTRITION_ANALYSIS
