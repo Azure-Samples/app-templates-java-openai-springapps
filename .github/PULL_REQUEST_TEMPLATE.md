@@ -23,13 +23,28 @@ What kind of change does this Pull Request introduce?
 ```
 
 ## How to Test
-*  Get the code
+* Get the code
 
 ```
 git clone [repo-address]
 cd [repo-name]
 git checkout [branch-name]
+```
+
+* Run the front-end
+
+```
+cd src/frontend
 npm install
+npm start
+```
+
+* Run the AI Shopping Cart Service
+<!-- Add the version of the backend -->
+```
+cd ../ai-shopping-cart-service
+mvn clean package
+java -jar target/ai-shopping-cart-service-<add-the-version-here>.jar
 ```
 
 * Test the code
