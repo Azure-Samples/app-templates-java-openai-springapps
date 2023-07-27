@@ -15,7 +15,7 @@
       "value": "${SERVICE_AI_SHOPPING_CART_SERVICE_RELATIVE_PATH=<default>}"
     },
     "azureOpenAiApiKey": {
-      "value": "${azureOpenAiKey}"
+      "value": "${azureOpenAiApiKey}"
     },
     "azureOpenAiEndpoint": {
       "value": "${azureOpenAiEndpoint}"
