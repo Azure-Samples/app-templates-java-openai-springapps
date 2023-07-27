@@ -1,0 +1,38 @@
+# Variables
+@host = http://localhost:8080
+@name = Pear
+@category = Fruits
+@quantity = 10
+@id = 1
+
+### Add a cart item
+
+POST {{host}}/api/cart-items
+Content-Type: application/json
+
+{
+  "name": "{{name}}",
+  "category": "{{category}}",
+  "quantity": {{quantity}}
+}
+
+
+### Get all cart items
+
+GET {{host}}/api/cart-items
+
+### Remove all cart items
+
+DELETE {{host}}/api/cart-items
+
+### Remove a cart item
+
+DELETE {{host}}/api/cart-items/{{id}}
+
+### Get AI Nutrition Analysis
+
+GET {{host}}/api/cart-items/ai-nutrition-analysis
+
+### Get Top 3 Recipes
+
+GET {{host}}/api/cart-items/top-3-recipes

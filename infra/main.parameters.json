@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": "${AZURE_ENV_NAME}"
+    },
+    "location": {
+      "value": "${AZURE_LOCATION}"
+    },
+    "frontendAppExists": {
+      "value": "${SERVICE_FRONTEND_RESOURCE_EXISTS=false}"
+    },
+    "aiShoppingCartServiceRelativePath": {
+      "value": "${SERVICE_AI_SHOPPING_CART_SERVICE_RELATIVE_PATH=<default>}"
+    },
+    "azureOpenAiApiKey": {
+      "value": "${azureOpenAiApiKey}"
+    },
+    "azureOpenAiEndpoint": {
+      "value": "${azureOpenAiEndpoint}"
+    },
+    "azureOpenAiDeploymentId": {
+      "value": "${azureOpenAiDeploymentId}"
+    }
+  }
+}

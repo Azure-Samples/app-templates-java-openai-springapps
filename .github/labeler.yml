@@ -21,13 +21,13 @@ documentation:
   - 'assets/*'
   - 'assets/**/*'
 
-# Add 'scr: ai-shopping-cart-service' for any change in /src/ai-shopping-cart-service
-'scr: ai-shopping-cart-service':
+# Add 'src: ai-shopping-cart-service' for any change in /src/ai-shopping-cart-service
+'src: ai-shopping-cart-service':
   - 'src/ai-shopping-cart-service/*'
   - 'src/ai-shopping-cart-service/**/*'
 
-# Add 'scr: frontend' for any change in /src/frontend
-'scr: frontend':
+# Add 'src: frontend' for any change in /src/frontend
+'src: frontend':
   - 'src/frontend/*'
   - 'src/frontend/**/*'
 

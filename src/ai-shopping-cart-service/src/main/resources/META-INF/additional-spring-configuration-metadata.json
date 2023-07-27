@@ -1,0 +1,31 @@
+{
+  "properties": [
+    {
+      "name": "azure.openai.apikey",
+      "type": "java.lang.String",
+      "description": "Azure OpenAI Key. It can be override by the environment variable AZURE_OPENAI_API_KEY"
+    },
+    {
+      "name": "azure.openai.endpoint",
+      "type": "java.lang.String",
+      "description": "Azure OpenAI Endpoint. It can be override by the environment variable AZURE_OPENAI_ENDPOINT"
+    },
+    {
+      "name": "azure.openai.deployment.id",
+      "type": "java.lang.String",
+      "description": "Azure OpenAI Model Deployment ID. It can be override by the environment variable AZURE_OPENAI_DEPLOYMENT_ID"
+    },
+    {
+      "name": "azure.openai.temperature",
+      "type": "java.lang.Double",
+      "description": "Azure OpenAI Temperature. It can be override by the environment variable AZURE_OPENAI_TEMPERATURE",
+      "defaultValue": "0.7"
+    },
+    {
+      "name": "azure.openai.top.p",
+      "type": "java.lang.Double",
+      "description": "Azure OpenAI Top P. It can be override by the environment variable AZURE_OPENAI_TOP_P",
+      "defaultValue": "1.0"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/alpha/azure.yaml.json
+
+name: shopping-cart
+metadata:
+  template: app-templates-java-openai-springapps@0.0.1-beta
+services:
+  frontend:
+    language: js
+    project: ./src/frontend
+    host: containerapp
+  ai-shopping-cart-service:
+    language: java
+    project: ./src/ai-shopping-cart-service
+    host: springapp
