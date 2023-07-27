@@ -1,0 +1,18 @@
+# Add a label to the PR when it is opened or updated
+
+name: Pull Request Labeler
+
+on: [pull_request]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          sync-labels: true
+          configuration-path: .github/labeler.yml
+          dot: true
