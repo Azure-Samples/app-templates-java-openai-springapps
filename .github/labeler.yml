@@ -1,0 +1,38 @@
+# Add 'automation: azd' for changes in Azure Developer CLI YAML file
+'automation: azd':
+  - 'azure.yaml'
+
+# Add 'automation: CI/CD' for changes in GitHub actions (or other) and in Azure DevOps pipeline(s)
+'automation: CI/CD':
+  - '.github/*'
+  - '.github/**/*'
+  - '.azdo/*'
+  - '.azdo/**/*'
+
+# Add 'automation: infra' for changes in infrastructure code (IaC)
+'automation: infra':
+  - 'infra/*'
+  - 'infra/**/*'
+
+# Add 'documentation' label to any change in md files or in any assets in the /assets folder
+documentation:
+  - '*.md'
+  - '**/*.md'
+  - 'assets/*'
+  - 'assets/**/*'
+
+# Add 'scr: ai-shopping-cart-service' for any change in /src/ai-shopping-cart-service
+'scr: ai-shopping-cart-service':
+  - 'src/ai-shopping-cart-service/*'
+  - 'src/ai-shopping-cart-service/**/*'
+
+# Add 'scr: frontend' for any change in /src/frontend
+'scr: frontend':
+  - 'src/frontend/*'
+  - 'src/frontend/**/*'
+
+# Add 'tools: dev-container' for any change in /.devcontainer
+'tools: dev-container':
+  - '.devcontainer/*'
+  - '.devcontainer/**/*'
+  
