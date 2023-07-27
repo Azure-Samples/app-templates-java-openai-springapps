@@ -1,0 +1,1 @@
+export const API_URL: string = window.ENV_CONFIG.REACT_APP_API_URL as string || 'http://localhost:8080';
