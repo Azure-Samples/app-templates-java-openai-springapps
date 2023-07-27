@@ -43,7 +43,7 @@ npm start
 <!-- Add the version of the backend -->
 ```
 cd ../ai-shopping-cart-service
-mvn clean package
+./mvnw clean package
 java -jar target/ai-shopping-cart-service-<add-the-version-here>.jar
 ```
 
