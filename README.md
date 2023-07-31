@@ -41,7 +41,7 @@ AI Shopping Cart is a sample application that supercharges your shopping experie
 - [OpenJDK 17](https://learn.microsoft.com/en-us/java/openjdk/install)
 - [Node.js 20.5.0+](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
-- [Azure OpenAI with gpt-4](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#note-on-azure-openai)</sup>
+- [Azure OpenAI with gpt-4](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#azure-openai)</sup>
 - Review the [architecture diagram and the resources](#application-architecture) you'll deploy
 
 ## Quickstart
@@ -82,13 +82,34 @@ This sample application uses the following Azure resources:
 - [Azure Container Registry](https://learn.microsoft.com/azure/container-registry/) to host the Docker image for the frontend
 - [Azure Database for PostgreSQL (Flexible Server)](https://learn.microsoft.com/azure/postgresql/) to store the data for the AI Shopping Cart Service
 - [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/) for monitoring and logging
-- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) to perform nutrition analysis and generate top 3 recipes. It is not deployed with the sample app<sup>[\[Note\]](#note-on-azure-openai)</sup>.
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) to perform nutrition analysis and generate top 3 recipes. It is not deployed with the sample app<sup>[\[Note\]](#azure-openai)</sup>.
 
 Here's a high level architecture diagram that illustrates these components. Excepted Azure OpenAI, all the other resources are provisioned in a single [resource group](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal) that is created when you create your resources using `azd up`.
 
 ![Architecture diagram](./assets/architecture-diagram.png)
 
 > This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+
+## Azure OpenAI
+
+This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. This sample app was developped and test using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
+
+- `azureOpenAiApiKey` - Azure OpenAI API key
+- `azureOpenAiEndpoint` - Azure OpenAI endpoint
+- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
+
+> Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
+
+- [Pre-requisites](#pre-requisites) :arrow_heading_up:
+- [Application Architecture](#application-architecture) :arrow_heading_up:
+
+`AI Shopping Cart Service` is using [Azure OpenAI client library for Java](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme). This libary is part of of [Azure SDK for Java](https://learn.microsoft.com/en-us/azure/developer/java/sdk/). It is implemented as a [chat completion](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme?view=azure-java-preview#chat-completions).
+
+[Prompt engineering](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering) is important to get the best results from Azure OpenAI. Text prompts are how users interact with GPT models. As with all generative large language model (LLM), GPT models try to produce the next series of words that are the most likely to follow the previous text. It is a bit like asking to the AI model: What is the first thing that comes to mind when I say `<prompt>`?
+
+With the [Chat Completion API](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions), there are distinct sections of the prompt that are sent to the API associated with a specific role: system, user and assitant. The system message is included at the begining of the prompt and is used to provides the initial instructions to the model: description of the assitant, personality traits, instructions/rules it will follow, etc.
+
+In the service, we have 2 system messages: one for AI Nutrition Analysis and one to generate top 3 recipes. These system messages are avaialble in [SystemMessageConstants.java](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/SystemMessageConstants.java). These messages are followed by a user message: ```The basket is: <list of items in the basket>```. The assistant message is the response from the model. The service is using the [ShoppingCartAiRecommendations](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/ShoppingCartAiRecommendations.java) to interact with Azure OpenAI. In this class you will find the code that is responsible for generating the prompt and calling the Azure OpenAI API: `getChatCompletion`. To know more about temperature and topP used in this class, please refer to [the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions#temperature-and-top_p-parameters).
 
 ## Application Code
 
@@ -109,19 +130,6 @@ At this point, you have a complete application deployed on Azure. But there is m
 ### Additional `azd` commands
 
 The Azure Developer CLI includes many other commands to help with your Azure development experience. You can view these commands at the terminal by running `azd help`. You can also view the full list of commands on our [Azure Developer CLI command](https://aka.ms/azure-dev/ref) page.
-
-## Note on Azure OpenAI
-
-This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. This sample app was developped and test using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
-
-- `azureOpenAiApiKey` - Azure OpenAI API key
-- `azureOpenAiEndpoint` - Azure OpenAI endpoint
-- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
-
-> Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
-
-- [Pre-requisites](#pre-requisites) :arrow_heading_up:
-- [Application Architecture](#application-architecture) :arrow_heading_up:
 
 ## Resources
 
