@@ -216,6 +216,22 @@ module aiShoppingCartService 'app/ai-shopping-cart-service.bicep' = {
     azureOpenAiDeploymentId: azureOpenAiDeploymentId
   }
 }
+//  Telemetry Deployment
+@description('Enable usage and telemetry feedback to Microsoft.')
+var telemetryId = '11d2e1bb-4e66-4a54-9d49-df3778d0e9a1-asaopenai-${location}'
+
+resource telemetrydeployment 'Microsoft.Resources/deployments@2021-04-01' = if (enableTelemetry) {
+  name: telemetryId
+  location: location
+  properties: {
+    mode: 'Incremental'
+    template: {
+      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#'
+      contentVersion: '1.0.0.0'
+      resources: {}
+    }
+  }
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   OUTPUTS                                  */

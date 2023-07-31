@@ -32,6 +32,8 @@ AI Shopping Cart is a sample application that supercharges your shopping experie
 
 > This sample application take inspiration on this original work: https://github.com/lopezleandro03/ai-assisted-groceries-cart
 
+> Refer to the [App Templates](https://github.com/microsoft/App-Templates) repo Readme for more samples that are compatible with [`azd`](https://github.com/Azure/azure-dev/).
+
 ![AI Shopping Cart](./assets/ai-shopping-cart.png)
 
 ## Pre-requisites
