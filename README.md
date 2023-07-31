@@ -1,3 +1,26 @@
+---
+page_type: sample
+languages:
+- azdeveloper
+- java
+- typescript
+- bicep
+- html
+products:
+- azure
+- azure-container-apps
+- azure-spring-apps
+- azure-container-registry
+- azure-monitor
+- ms-build-openjdk
+- ai-services
+- azure-openai
+- azure-database-postgresql
+urlFragment: app-templates-java-openai-springapps
+name: AI Shopping Cart - App Template for Java, Azure OpenAI and Azure Spring Apps
+description: AI Shopping Cart Sample Application with Azure OpenAI and Azure Spring Apps
+---
+
 # AI Shopping Cart - App Template for Java, Azure OpenAI and Azure Spring Apps
 
 [![Open in GitHub Codespaces](https://img.shields.io/badge/Github_Codespaces-Open-black?style=for-the-badge&logo=github
