@@ -1,4 +1,4 @@
-# Infrastructure for AI Shopping Cart Sample Apps
+# Infrastructure for AI Shopping Cart Sample App
 
 This folder contains the infrastructure for the AI Shopping Cart sample apps. The infrastructure is supposed to be deployed using [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview) (azd). You can check the [AI Shopping Cart README](../README.md) for more information about the sample apps and to deploy it using `azd`.
 
