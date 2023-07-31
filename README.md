@@ -30,6 +30,8 @@ description: AI Shopping Cart Sample Application with Azure OpenAI and Azure Spr
 
 AI Shopping Cart is a sample application that supercharges your shopping experience with the power of AI. It leverages Azure OpenAI and Azure Spring Apps to build a recommendation engine that is not only scalable, resilient, and secure, but also personalized to your needs. Taking advantage of Azure OpenAI, the application performs nutrition analysis on the items in your cart and generates the top 3 recipes using those ingredients. With Azure Developer CLI (azd), you’re just a few commands away from having this fully functional sample application up and running in Azure. Let's get started!
 
+> This sample application take inspiration on this original work: https://github.com/lopezleandro03/ai-assisted-groceries-cart
+
 ![AI Shopping Cart](./assets/ai-shopping-cart.png)
 
 ## Pre-requisites
