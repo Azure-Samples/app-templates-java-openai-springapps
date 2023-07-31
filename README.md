@@ -102,4 +102,4 @@ This sample application uses Azure OpenAI. It is not part of the automated deplo
 
 These are additional resources that you can use to learn more about the sample application and its underlying technologies.
 
-- [Start from zero and scale to zero – Azure Spring Apps consumption plan](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/)
+- [Start from zero and scale to zero – Azure Spring Apps consumption plan](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/start-from-zero-and-scale-to-zero-azure-spring-apps-consumption/ba-p/3774825)
