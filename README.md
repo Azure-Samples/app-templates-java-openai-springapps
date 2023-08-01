@@ -55,7 +55,7 @@ This quickstart will show you how to authenticate on Azure, enable Spring Apps [
 azd auth login
 
 # Enable Azure Spring Apps alpha feature for azd
-azd config set alpha.springapps on
+azd config set alpha.springapp on
 
 # First-time project setup. Initialize a project in the current directory using this template
 azd init --template Azure-Samples/app-templates-java-openai-springapps
