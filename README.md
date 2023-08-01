@@ -137,7 +137,8 @@ The software may collect information about you and your use of the software and 
 ## Telemetry Configuration
 Telemetry collection is on by default.
 
-To opt-out, set the variable enableTelemetry to false in Bicep/ARM file and disable_terraform_partner_id to false on Terraform files.
+To opt-out, set the variable enableTelemetry to false in infra/main.parameters.json or in bicep template infra/main.bicep. It can be set using the following command when the provisionning is done with Azure Developer CLI: 
+> azd env set enableTelemetry false
 
 ## Trademarks
 
