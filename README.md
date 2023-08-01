@@ -43,7 +43,7 @@ AI Shopping Cart is a sample application that supercharges your shopping experie
 - [OpenJDK 17](https://learn.microsoft.com/en-us/java/openjdk/install)
 - [Node.js 20.5.0+](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
-- [Azure OpenAI with gpt-4](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#note-on-azure-openai)</sup>
+- [Azure OpenAI with gpt-4](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#azure-openai)</sup>
 - Review the [architecture diagram and the resources](#application-architecture) you'll deploy
 
 ## Quickstart
@@ -79,18 +79,43 @@ At the end of the deployment, you will see the URL of the front-end. Open the UR
 
 This sample application uses the following Azure resources:
 
-- [Azure Container Apps (Envirornment)](https://learn.microsoft.com/en-us/azure/container-apps/) to host the frontend as a Container App and Azure Spring Apps [Standard comsumption and dedicated plan](https://learn.microsoft.com/en-us/azure/spring-apps/overview#standard-consumption-and-dedicated-plan)
+- [Azure Container Apps (Environment)](https://learn.microsoft.com/en-us/azure/container-apps/) to host the frontend as a Container App and Azure Spring Apps [Standard comsumption and dedicated plan](https://learn.microsoft.com/en-us/azure/spring-apps/overview#standard-consumption-and-dedicated-plan)
 - [Azure Spring Apps](https://learn.microsoft.com/azure/spring-apps/) to host the AI Shopping Cart Service as a Spring App
 - [Azure Container Registry](https://learn.microsoft.com/azure/container-registry/) to host the Docker image for the frontend
 - [Azure Database for PostgreSQL (Flexible Server)](https://learn.microsoft.com/azure/postgresql/) to store the data for the AI Shopping Cart Service
 - [Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/) for monitoring and logging
-- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) to perform nutrition analysis and generate top 3 recipes. It is not deployed with the sample app<sup>[\[Note\]](#note-on-azure-openai)</sup>.
+- [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/) to perform nutrition analysis and generate top 3 recipes. It is not deployed with the sample app<sup>[\[Note\]](#azure-openai)</sup>.
 
 Here's a high level architecture diagram that illustrates these components. Excepted Azure OpenAI, all the other resources are provisioned in a single [resource group](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal) that is created when you create your resources using `azd up`.
 
 ![Architecture diagram](./assets/architecture-diagram.png)
 
 > This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+
+## Azure OpenAI
+
+This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. Do not forget to read the [overview of the Responsible AI practices for Azure OpenAI models](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/overview?context=%2Fazure%2Fai-services%2Fopenai%2Fcontext%2Fcontext) before you start using Azure OpenAI and request access.
+
+The current version of the sample app requires a publicly accessible Azure OpenAI resource (i.e. Allow access from all networks). This sample is not intended to be used in production. To know more about networking and security for Azure OpenAI, please refer to the [Azure OpenAI documentation](#azure-spring-apps-consumption---networking-and-security).
+
+This sample app was developed and tested using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
+
+- `azureOpenAiApiKey` - Azure OpenAI API key
+- `azureOpenAiEndpoint` - Azure OpenAI endpoint
+- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
+
+The API key and the endpoint can be found in the Azure Portal. You can follow these instructions: [Retrieve key and enpoint](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-java#retrieve-key-and-endpoint). The deployment id corresponds to the `deployment name` in [this guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#deploy-a-model).
+
+> Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
+
+[Prompt engineering](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering) is important to get the best results from Azure OpenAI. Text prompts are how users interact with GPT models. As with all generative large language model (LLM), GPT models try to produce the next series of words that are the most likely to follow the previous text. It is a bit like asking to the AI model: What is the first thing that comes to mind when I say `<prompt>`?
+
+With the [Chat Completion API](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions), there are distinct sections of the prompt that are sent to the API associated with a specific role: system, user and assitant. The system message is included at the begining of the prompt and is used to provides the initial instructions to the model: description of the assitant, personality traits, instructions/rules it will follow, etc.
+
+`AI Shopping Cart Service` is using [Azure OpenAI client library for Java](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme). This libary is part of of [Azure SDK for Java](https://learn.microsoft.com/en-us/azure/developer/java/sdk/). It is implemented as a [chat completion](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme?view=azure-java-preview#chat-completions). In the service, we have 2 system messages in [SystemMessageConstants.java](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/SystemMessageConstants.java): one for AI Nutrition Analysis and one to generate top 3 recipes. The system message is followed by a user message: ```The basket is: <list of items in the basket>```. The assistant message is the response from the model. The service is using the [ShoppingCartAiRecommendations](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/ShoppingCartAiRecommendations.java) to interact with Azure OpenAI. In this class you will find the code that is responsible for generating the prompt and calling the Azure OpenAI API: `getChatCompletion`. To know more about temperature and topP used in this class, please refer to [the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions#temperature-and-top_p-parameters).
+
+- [Pre-requisites](#pre-requisites) :arrow_heading_up:
+- [Application Architecture](#application-architecture) :arrow_heading_up:
 
 ## Application Code
 
@@ -112,24 +137,17 @@ At this point, you have a complete application deployed on Azure. But there is m
 
 The Azure Developer CLI includes many other commands to help with your Azure development experience. You can view these commands at the terminal by running `azd help`. You can also view the full list of commands on our [Azure Developer CLI command](https://aka.ms/azure-dev/ref) page.
 
-## Note on Azure OpenAI
-
-This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. This sample app was developped and test using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
-
-- `azureOpenAiApiKey` - Azure OpenAI API key
-- `azureOpenAiEndpoint` - Azure OpenAI endpoint
-- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
-
-> Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
-
-- [Pre-requisites](#pre-requisites) :arrow_heading_up:
-- [Application Architecture](#application-architecture) :arrow_heading_up:
-
 ## Resources
 
 These are additional resources that you can use to learn more about the sample application and its underlying technologies.
 
 - [Start from zero and scale to zero – Azure Spring Apps consumption plan](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/start-from-zero-and-scale-to-zero-azure-spring-apps-consumption/ba-p/3774825)
+
+### Azure Spring Apps Consumption - Networking and Security
+
+- [https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest](https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?context=%2Fazure%2Fai-services%2Fopenai%2Fcontext%2Fcontext&tabs=portal)
+- [https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest](https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest)
+- [How to configure Azure OpenAI Service with managed identities](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/managed-identity)
 
 ## Data Collection
 The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the repository. There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft's privacy statement. Our privacy statement is located at https://go.microsoft.com/fwlink/?LinkId=521839. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.
