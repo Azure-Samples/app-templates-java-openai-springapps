@@ -94,11 +94,17 @@ Here's a high level architecture diagram that illustrates these components. Exce
 
 ## Azure OpenAI
 
-This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. This sample app was developed and tested using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
+This sample application uses Azure OpenAI. It is not part of the automated deployment process. You will need to create an Azure OpenAI resource and configure the application to use it. Please follow the instructions in the [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) to get access to Azure OpenAI. Do not forget to read the [overview of the Responsible AI practices for Azure OpenAI models](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/overview?context=%2Fazure%2Fai-services%2Fopenai%2Fcontext%2Fcontext) before you start using Azure OpenAI and request access.
+
+The current version of the sample app requires a publicly accessible Azure OpenAI resource (i.e. Allow access from all networks). This sample is not intended to be used in production. To know more about networking and security for Azure OpenAI, please refer to the [Azure OpenAI documentation](#azure-spring-apps-consumption---networking-and-security).
+
+This sample app was developed and tested using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
 
 - `azureOpenAiApiKey` - Azure OpenAI API key
 - `azureOpenAiEndpoint` - Azure OpenAI endpoint
 - `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
+
+The API key and the endpoint can be found in the Azure Portal. You can follow these instructions: [Retrieve key and enpoint](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-java#retrieve-key-and-endpoint). The deployment id corresponds to the `deployment name` in [this guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#deploy-a-model).
 
 > Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
 
@@ -136,6 +142,12 @@ The Azure Developer CLI includes many other commands to help with your Azure dev
 These are additional resources that you can use to learn more about the sample application and its underlying technologies.
 
 - [Start from zero and scale to zero – Azure Spring Apps consumption plan](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/start-from-zero-and-scale-to-zero-azure-spring-apps-consumption/ba-p/3774825)
+
+### Azure Spring Apps Consumption - Networking and Security
+
+- [https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest](https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-networks?context=%2Fazure%2Fai-services%2Fopenai%2Fcontext%2Fcontext&tabs=portal)
+- [https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest](https://learn.microsoft.com/en-us/azure/ai-services/openai/encrypt-data-at-rest)
+- [How to configure Azure OpenAI Service with managed identities](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/managed-identity)
 
 ## Data Collection
 The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the repository. There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft's privacy statement. Our privacy statement is located at https://go.microsoft.com/fwlink/?LinkId=521839. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.
