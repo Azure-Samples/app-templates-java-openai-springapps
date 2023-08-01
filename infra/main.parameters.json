@@ -22,6 +22,9 @@
     },
     "azureOpenAiDeploymentId": {
       "value": "${azureOpenAiDeploymentId}"
+    },
+    "enableTelemetry": {
+      "value": "${enableTelemetry=true}"
     }
   }
 }

@@ -79,6 +79,11 @@ param azureOpenAiEndpoint string
 @description('Azure Open AI deployment id. This is required. Azure OpenAI is not deployed with this template.')
 param azureOpenAiDeploymentId string
 
+/* -------------------------------- Telemetry ------------------------------- */
+
+@description('Enable usage and telemetry feedback to Microsoft.')
+param enableTelemetry bool = true
+
 
 /* -------------------------------------------------------------------------- */
 /*                                  VARIABLES                                 */
@@ -98,6 +103,10 @@ var tags = {
   // Tag all resources with the environment name.
   'azd-env-name': environmentName
 }
+
+//  Telemetry Deployment
+@description('Enable usage and telemetry feedback to Microsoft.')
+var telemetryId = '11d2e1bb-4e66-4a54-9d49-df3778d0e9a1-asaopenai-${location}'
 
 /* ----------------------------- Resource Names ----------------------------- */
 
@@ -214,6 +223,19 @@ module aiShoppingCartService 'app/ai-shopping-cart-service.bicep' = {
     azureOpenAiApiKey: azureOpenAiApiKey
     azureOpenAiEndpoint: azureOpenAiEndpoint
     azureOpenAiDeploymentId: azureOpenAiDeploymentId
+  }
+}
+
+resource telemetrydeployment 'Microsoft.Resources/deployments@2021-04-01' = if (enableTelemetry) {
+  name: telemetryId
+  location: location
+  properties: {
+    mode: 'Incremental'
+    template: {
+      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#'
+      contentVersion: '1.0.0.0'
+      resources: {}
+    }
   }
 }
 
