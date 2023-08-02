@@ -42,6 +42,7 @@ steps:
       azureOpenAiApiKey: $(AZURE_OPENAI_API_KEY)
       azureOpenAiEndpoint: $(AZURE_OPENAI_ENDPOINT)
       azureOpenAiDeploymentId: $(AZURE_OPENAI_DEPLOYMENT_ID)
+      isAzureOpenAiGpt4Model: $(IS_AZURE_OPENAI_GPT4_MODEL)
       
   - task: AzureCLI@2
     displayName: Deploy Application

@@ -69,6 +69,7 @@ jobs:
           azureOpenAiApiKey: ${{ secrets.AZURE_OPENAI_API_KEY }}
           azureOpenAiEndpoint: ${{ vars.AZURE_OPENAI_ENDPOINT }}
           azureOpenAiDeploymentId: ${{ vars.AZURE_OPENAI_DEPLOYMENT_ID }}
+          isAzureOpenAiGpt4Model: ${{ vars.IS_AZURE_OPENAI_GPT4_MODEL }}
 
       - name: Deploy Application
         run: azd deploy --no-prompt
