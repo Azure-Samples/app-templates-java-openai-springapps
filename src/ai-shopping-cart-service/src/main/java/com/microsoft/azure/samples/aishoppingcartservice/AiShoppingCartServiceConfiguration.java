@@ -18,6 +18,8 @@ public class AiShoppingCartServiceConfiguration {
   private double temperature;
   @Value("${azure.openai.top.p}")
   private double topP;
+  @Value("${azure.openai.is.gpt4}")
+  private boolean isGpt4;
 
   @Bean
   public ShoppingCartAiRecommendations shoppingCartRecommendations() {
@@ -26,6 +28,7 @@ public class AiShoppingCartServiceConfiguration {
         this.azureOpenAiEndpoint,
         this.azureOpenAiModelDeploymentId,
         this.temperature,
-        this.topP);
+        this.topP,
+        this.isGpt4);
   }
 }

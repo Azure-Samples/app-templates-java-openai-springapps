@@ -23,6 +23,9 @@
     "azureOpenAiDeploymentId": {
       "value": "${azureOpenAiDeploymentId}"
     },
+    "isAzureOpenAiGpt4Model": {
+      "value": "${isAzureOpenAiGpt4Model=true}"
+    },
     "enableTelemetry": {
       "value": "${enableTelemetry=true}"
     }
