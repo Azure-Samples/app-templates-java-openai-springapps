@@ -47,6 +47,9 @@ param azureOpenAiEndpoint string
 @description('Azure Open AI deployment ID.')
 param azureOpenAiDeploymentId string
 
+@description('Set if the model deployed is Azure Open AI "gpt-4" (true) or "gpt-35-turbo" (false).')
+param isAzureOpenAiGpt4Model bool
+
 /* -------------------------------------------------------------------------- */
 /*                                  VARIABLES                                 */
 /* -------------------------------------------------------------------------- */
@@ -79,6 +82,7 @@ module springApps '../core/host/spring-apps-consumption.bicep' = {
       AZURE_OPENAI_API_KEY: azureOpenAiApiKey
       AZURE_OPENAI_ENDPOINT: azureOpenAiEndpoint
       AZURE_OPENAI_DEPLOYMENT_ID: azureOpenAiDeploymentId
+      AZURE_OPENAI_IS_GPT4: isAzureOpenAiGpt4Model ? 'true' : 'false'
     }
   }
 }
