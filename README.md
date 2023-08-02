@@ -32,7 +32,7 @@ AI Shopping Cart is a sample application that supercharges your shopping experie
 
 > This sample application take inspiration on this original work: https://github.com/lopezleandro03/ai-assisted-groceries-cart
 
-> Refer to the [App Templates](https://github.com/microsoft/App-Templates) repo Readme for more samples that are compatible with [`azd`](https://github.com/Azure/azure-dev/).
+> Refer to the [App Templates](https://github.com/microsoft/App-Templates) repository Readme for more samples that are compatible with [`azd`](https://github.com/Azure/azure-dev/).
 
 ![AI Shopping Cart](./assets/ai-shopping-cart.png)
 
@@ -43,8 +43,8 @@ AI Shopping Cart is a sample application that supercharges your shopping experie
 - [OpenJDK 17](https://learn.microsoft.com/en-us/java/openjdk/install)
 - [Node.js 20.5.0+](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
-- [Azure OpenAI with gpt-4](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#azure-openai)</sup>
-- Review the [architecture diagram and the resources](#application-architecture) you'll deploy
+- [Azure OpenAI with `gpt-4` or `gpt-35-turbo`](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai) <sup>[\[Note\]](#azure-openai)</sup>
+- Review the [architecture diagram and the resources](#application-architecture) you'll deploy and the [Azure OpenAI](#azure-openai) section.
 
 ## Quickstart
 
@@ -71,7 +71,12 @@ azd env set azureOpenAiDeploymentId <replace-with-Azure-OpenAi-deployment-id>
 azd up
 ```
 
-> Note: Replace the placeholders with the values from your Azure OpenAI resource.
+> Notes
+> * Replace the placeholders with the values from your Azure OpenAI resource.
+> * If you are using `gpt-35-turbo` model, you need to set `isAzureOpenAiGpt4Model` to `false` before provisioning the resource and deploying the sample application to Azure:
+>     ```bash
+>     azd env set isAzureOpenAiGpt4Model false
+>     ```
 
 At the end of the deployment, you will see the URL of the front-end. Open the URL in a browser to see the application in action.
 
@@ -98,21 +103,21 @@ This sample application uses Azure OpenAI. It is not part of the automated deplo
 
 The current version of the sample app requires a publicly accessible Azure OpenAI resource (i.e. Allow access from all networks). This sample is not intended to be used in production. To know more about networking and security for Azure OpenAI, please refer to the [Azure OpenAI documentation](#azure-spring-apps-consumption---networking-and-security).
 
-This sample app was developed and tested using `gpt-4` model. You need the following information from the Azure OpenAI resource to configure the application:
+This sample app was developed to be used with `gpt-4` model. It also supports `gpt-35-turbo`. To use `gpt-35-turbo`, you need to set `isAzureOpenAiGpt4Model` to `false` (cf. [Quickstart](#quickstart)). By default, this parameter/environment variable is set to `true`. To complete the setup of the application, you need to set the following information from the Azure OpenAI resource:
 
 - `azureOpenAiApiKey` - Azure OpenAI API key
 - `azureOpenAiEndpoint` - Azure OpenAI endpoint
-- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` model
+- `azureOpenAiDeploymentId` - Azure OpenAI deployment ID of `gpt-4` or `gpt-3.5-turbo` model
 
 The API key and the endpoint can be found in the Azure Portal. You can follow these instructions: [Retrieve key and enpoint](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-java#retrieve-key-and-endpoint). The deployment id corresponds to the `deployment name` in [this guide](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#deploy-a-model).
-
-> Note: The sample application could be used with `gpt-3.5` model as well. However, it is currently not tested.
 
 [Prompt engineering](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering) is important to get the best results from Azure OpenAI. Text prompts are how users interact with GPT models. As with all generative large language model (LLM), GPT models try to produce the next series of words that are the most likely to follow the previous text. It is a bit like asking to the AI model: What is the first thing that comes to mind when I say `<prompt>`?
 
 With the [Chat Completion API](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions), there are distinct sections of the prompt that are sent to the API associated with a specific role: system, user and assitant. The system message is included at the begining of the prompt and is used to provides the initial instructions to the model: description of the assitant, personality traits, instructions/rules it will follow, etc.
 
-`AI Shopping Cart Service` is using [Azure OpenAI client library for Java](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme). This libary is part of of [Azure SDK for Java](https://learn.microsoft.com/en-us/azure/developer/java/sdk/). It is implemented as a [chat completion](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme?view=azure-java-preview#chat-completions). In the service, we have 2 system messages in [SystemMessageConstants.java](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/SystemMessageConstants.java): one for AI Nutrition Analysis and one to generate top 3 recipes. The system message is followed by a user message: ```The basket is: <list of items in the basket>```. The assistant message is the response from the model. The service is using the [ShoppingCartAiRecommendations](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/ShoppingCartAiRecommendations.java) to interact with Azure OpenAI. In this class you will find the code that is responsible for generating the prompt and calling the Azure OpenAI API: `getChatCompletion`. To know more about temperature and topP used in this class, please refer to [the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions#temperature-and-top_p-parameters).
+`AI Shopping Cart Service` is using [Azure OpenAI client library for Java](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme). This libary is part of of [Azure SDK for Java](https://learn.microsoft.com/en-us/azure/developer/java/sdk/). It is implemented as a [chat completion](https://learn.microsoft.com/en-us/java/api/overview/azure/ai-openai-readme?view=azure-java-preview#chat-completions). In the service, we have 2 system messages in [SystemMessageConstants.java](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/SystemMessageConstants.java): one for AI Nutrition Analysis and one to generate top 3 recipes. The system message is followed by a user message: `The basket is: <list of items in the basket separated by a comma>`. The assistant message is the response from the model. The service is using the [ShoppingCartAiRecommendations](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/ShoppingCartAiRecommendations.java) to interact with Azure OpenAI. In this class you will find the code that is responsible for generating the prompt and calling the Azure OpenAI API: `getChatCompletion`. To know more about temperature and topP used in this class, please refer to [the documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions#temperature-and-top_p-parameters).
+
+For `gpt-35-turbo` model, more context is added to the user message. This additional context is added at the end of the user message. It provides more information on the format of the JSON that OpenAI model needs to return and ask the model tor return only the JSON without additional text. This additional context is available in [UserMessageConstants.java](src/ai-shopping-cart-service/src/main/java/com/microsoft/azure/samples/aishoppingcartservice/openai/UserMessageConstants.java).
 
 - [Pre-requisites](#pre-requisites) :arrow_heading_up:
 - [Application Architecture](#application-architecture) :arrow_heading_up:
