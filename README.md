@@ -65,7 +65,7 @@ azd init --template Azure-Samples/app-templates-java-openai-springapps
 # Set the environment variables for Azure OpenAI
 azd env set azureOpenAiApiKey <replace-with-Azure-OpenAi-API-key> 
 azd env set azureOpenAiEndpoint <replace-with-Azure-OpenAi-endpoint>
-azd env set azureOpenAiDeploymentId <replace-with-Azure-OpenAi-deployment-id>
+azd env set azureOpenAiDeploymentId <replace-with-Azure-OpenAi-deployment-id/name>
 
 # To use GPT-3.5 Turbo model set this environment variable to false
 azd env set isAzureOpenAiGpt4Model true
@@ -133,13 +133,20 @@ This template is structured to follow the [Azure Developer CLI template convetio
 
 At this point, you have a complete application deployed on Azure. But there is much more that the Azure Developer CLI can do. These next steps will introduce you to additional commands that will make creating applications on Azure much easier. Using the Azure Developer CLI, you can setup your pipelines, monitor your application, test and debug locally.
 
-- [`azd pipeline config`](https://learn.microsoft.com/azure/developer/azure-developer-cli/configure-devops-pipeline?tabs=GitHub) - to configure a CI/CD pipeline (using GitHub Actions or Azure DevOps) to deploy your application whenever code is pushed to the main branch. 
+- [`azd down`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down) - to delete all the Azure resources created with this template 
+
+- [`azd pipeline config`](https://learn.microsoft.com/azure/developer/azure-developer-cli/configure-devops-pipeline?tabs=GitHub) - to configure a CI/CD pipeline (using GitHub Actions or Azure DevOps) to deploy your application whenever code is pushed to the main branch.
+  - Several environment variables / secrets need to be set for Azure OpenAI resource:
+    - `AZURE_OPENAI_API_KEY`: API key for Azure OpenAI resource
+      - For GitHub workflows, you should use [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets)
+      - For Azure DevOps pipelines, you check 'Keep this value secret' when creating the variable
+    - `AZURE_OPENAI_ENDPOINT`: Endpoint for Azure OpenAI resource
+    - `AZURE_OPENAI_DEPLOYMENT_ID`: Deployment ID/name for Azure OpenAI resource
+    - `IS_AZURE_OPENAI_GPT4_MODEL`: Set to `true` if you are using GPT-4 model and to `false` if you are using GPT-3.5 Turbo model
 
 - [`azd monitor`](https://learn.microsoft.com/azure/developer/azure-developer-cli/monitor-your-app) - to monitor the application and quickly navigate to the various Application Insights dashboards (e.g. overview, live metrics, logs)
 
 - [Run and Debug Locally](https://learn.microsoft.com/azure/developer/azure-developer-cli/debug?pivots=ide-vs-code) - using Visual Studio Code and the Azure Developer CLI extension
-
-- [`azd down`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down) - to delete all the Azure resources created with this template 
 
 ### Additional `azd` commands
 
