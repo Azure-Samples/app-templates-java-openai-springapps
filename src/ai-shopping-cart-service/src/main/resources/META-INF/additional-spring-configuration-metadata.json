@@ -26,6 +26,12 @@
       "type": "java.lang.Double",
       "description": "Azure OpenAI Top P. It can be override by the environment variable AZURE_OPENAI_TOP_P",
       "defaultValue": "1.0"
+    },
+    {
+      "name": "azure.openai.is.gpt4",
+      "type": "java.lang.Boolean",
+      "description": "Set if Azure OpenAI model deployed is GPT-4 (true) or GPT-3.5 Turbo (false)",
+      "defaultValue": "true"
     }
   ]
 }
