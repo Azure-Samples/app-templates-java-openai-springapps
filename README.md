@@ -66,6 +66,8 @@ azd init --template Azure-Samples/app-templates-java-openai-springapps
 azd env set azureOpenAiApiKey <replace-with-Azure-OpenAi-API-key> 
 azd env set azureOpenAiEndpoint <replace-with-Azure-OpenAi-endpoint>
 azd env set azureOpenAiDeploymentId <replace-with-Azure-OpenAi-deployment-id>
+# To use GPT-3.5 Turbo model set this environment variable to false
+azd env set isAzureOpenAiGpt4Model true
 
 # Provision and deploy to Azure
 azd up
