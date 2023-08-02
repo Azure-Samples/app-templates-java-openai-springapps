@@ -30,7 +30,7 @@
     {
       "name": "azure.openai.is.gpt4",
       "type": "java.lang.Boolean",
-      "description": "Set if Azure OpenAI model deployed is GPT-4 (true) or GPT-3.5 Turbo (false)",
+      "description": "Set if Azure OpenAI model deployed is GPT-4 (true) or GPT-3.5 Turbo (false). It can be override by the environment variable AZURE_OPENAI_IS_GPT4",
       "defaultValue": "true"
     }
   ]

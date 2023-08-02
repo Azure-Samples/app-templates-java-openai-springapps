@@ -79,6 +79,9 @@ param azureOpenAiEndpoint string
 @description('Azure Open AI deployment id. This is required. Azure OpenAI is not deployed with this template.')
 param azureOpenAiDeploymentId string
 
+@description('Set if the model deployed is Azure Open AI "gpt-4" (true) or "gpt-35-turbo" (false). Default is "gpt-4".')
+param isAzureOpenAiGpt4Model bool = true
+
 /* -------------------------------- Telemetry ------------------------------- */
 
 @description('Enable usage and telemetry feedback to Microsoft.')
@@ -223,6 +226,7 @@ module aiShoppingCartService 'app/ai-shopping-cart-service.bicep' = {
     azureOpenAiApiKey: azureOpenAiApiKey
     azureOpenAiEndpoint: azureOpenAiEndpoint
     azureOpenAiDeploymentId: azureOpenAiDeploymentId
+    isAzureOpenAiGpt4Model: isAzureOpenAiGpt4Model
   }
 }
 
