@@ -19,13 +19,21 @@ steps:
     displayName: Configure AZD to Use AZ CLI Authentication.
 
   - task: AzureCLI@2
-    displayName: Provision Infrastructure
+    displayName: Set Azure Spring Apps alpha feature on
     inputs:
       azureSubscription: azconnection
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
         azd config set alpha.springapp on
+
+  - task: AzureCLI@2
+    displayName: Provision Infrastructure
+    inputs:
+      azureSubscription: azconnection
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
         azd provision --no-prompt
     env:
       AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -46,4 +54,3 @@ steps:
     env:
       AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
       AZURE_ENV_NAME: $(AZURE_ENV_NAME)
-
