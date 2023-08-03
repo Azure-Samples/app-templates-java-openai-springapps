@@ -134,10 +134,12 @@ This template is structured to follow the [Azure Developer CLI template convetio
 At this point, you have a complete application deployed on Azure. 
 
 ### Enterprise Scenarios
-For enterprise needs looking for polyglot applications deployment, Tanzu components support and SLA assurance, recommend to use the [Azure Spring Apps Enterprise](https://learn.microsoft.com/en-us/azure/spring-apps/overview#enterprise-plan). Check the [Azure Spring Apps landing zone accelerator](https://github.com/Azure/azure-spring-apps-landing-zone-accelerator) that provides architectural guidance designed to streamline the production ready infrastructure provisioning  and deployment of spring boot applications to Azure Spring Apps. As the workload owner, use [architectural guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/spring-apps/landing-zone-accelerator) provided in landing zone accelerator to achieve your target technical state with confidence. 
+
+For enterprise needs, looking for polyglot applications deployment, Tanzu components support and SLA assurance, we recommend to use [Azure Spring Apps Enterprise](https://learn.microsoft.com/en-us/azure/spring-apps/overview#enterprise-plan). Check the [Azure Spring Apps landing zone accelerator](https://github.com/Azure/azure-spring-apps-landing-zone-accelerator) that provides architectural guidance designed to streamline the production ready infrastructure provisioning and deployment of Spring Boot and Spring Cloud applications to Azure Spring Apps. As the workload owner, use [architectural guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/spring-apps/landing-zone-accelerator) provided in landing zone accelerator to achieve your target technical state with confidence.
 
 ### Azure Developer CLI
-You have deployed the sample application using Azure Developer cli, however there is much more that the Azure Developer CLI can do. These next steps will introduce you to additional commands that will make creating applications on Azure much easier. Using the Azure Developer CLI, you can setup your pipelines, monitor your application, test and debug locally.
+
+You have deployed the sample application using Azure Developer CLI, however there is much more that the Azure Developer CLI can do. These next steps will introduce you to additional commands that will make creating applications on Azure much easier. Using the Azure Developer CLI, you can setup your pipelines, monitor your application, test and debug locally.
 
 - [`azd down`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down) - to delete all the Azure resources created with this template 
 
