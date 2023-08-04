@@ -32,4 +32,4 @@
 * @pmalarme made their first contribution in https://github.com/Azure-Samples/app-templates-java-openai-springapps/pull/3
 * @aarthiem made their first contribution in https://github.com/Azure-Samples/app-templates-java-openai-springapps/pull/19
 
-**Full Changelog**: https://github.com/Azure-Samples/app-templates-java-openai-springapps/commits/1.0.0
+**Full Changelog**: https://github.com/Azure-Samples/app-templates-java-openai-springapps/commits/v1.0.0
