@@ -6,7 +6,7 @@ targetScope = 'subscription'
 
 @minLength(1)
 @maxLength(64)
-@description('Name of the the environment which is used to generate a name for all resources. Use only alphanumerics and hyphens. For resource that requires globally unique name, a token is generated based on this name and the ide of the subscription.')
+@description('Name of the the environment which is used to generate a name for all resources. Use only alphanumerics and hyphens. It cannot starts with a hyphen. For resource that requires globally unique name, a token is generated based on this name and the ide of the subscription.')
 param environmentName string
 
 @minLength(1)
@@ -40,11 +40,11 @@ param applicationInsightsName string = ''
 param applicationInsightsDashboardName string = ''
 
 @maxLength(32)
-@description('Name of the spring apps instance to deploy the AI shopping cart service. If not specified, a name will be generated. The maximum length is 32 characters. It contains only lowercase letters, numbers and hyphens.')
+@description('Name of the spring apps instance to deploy the AI shopping cart service. If not specified, a name will be generated. The name is global and must be unique within Azure. The maximum length is 32 characters. It contains only lowercase letters, numbers and hyphens.')
 param springAppsInstanceName string = ''
 
 @maxLength(63)
-@description('Name of the PostgreSQL flexible server to deploy. If not specified, a name will be generated. The name is global and must be unique within Azure. The maximum length is 63 characters. It contains only lowercase letters, numbers and hyphens, and cannot start or end with a hyphen.')
+@description('Name of the PostgreSQL flexible server to deploy. If not specified, a name will be generated. The name is global and must be unique within Azure. The maximum length is 63 characters. It contains only lowercase letters, numbers and hyphens, and cannot start nor end with a hyphen.')
 param postgresFlexibleServerName string = ''
 
 /* ------------------------------- PostgreSQL ------------------------------- */
@@ -95,7 +95,8 @@ param enableTelemetry bool = true
 @description('Abbreviations prefix for resources.')
 var abbreviations = loadJsonContent('./abbreviations.json')
 
-@description('Unique token used for global resource names.')
+@description('Unique token used for global resource names. Unique string returns a 13 characters long string.')
+// See: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-string#remarks-4
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 
 @description('Name of the environment with only alphanumeric characters. Used for resource names that require alphanumeric characters only.')
@@ -115,13 +116,27 @@ var telemetryId = '11d2e1bb-4e66-4a54-9d49-df3778d0e9a1-asaopenai-${location}'
 
 var _resourceGroupName = !empty(resourceGroupName) ? resourceGroupName : take('${abbreviations.resourcesResourceGroups}${environmentName}', 90)
 var _containerAppsEnvironmentName = !empty(containerAppsEnvironmentName) ? containerAppsEnvironmentName : take('${abbreviations.appManagedEnvironments}${environmentName}', 60)
-var _containerRegistryName = !empty(containerRegistryName) ? containerRegistryName : take('${abbreviations.containerRegistryRegistries}${alphaNumericEnvironmentName}${resourceToken}', 50)
 var _logAnalyticsWorkspaceName = !empty(logAnalyticsWorkspaceName) ? logAnalyticsWorkspaceName : take('${abbreviations.operationalInsightsWorkspaces}${environmentName}', 63)
 var _applicationInsightsName = !empty(applicationInsightsName) ? applicationInsightsName : take('${abbreviations.insightsComponents}${environmentName}', 255)
 var _applicationInsightsDashboardName = !empty(applicationInsightsDashboardName) ? applicationInsightsDashboardName : take('${abbreviations.portalDashboards}${environmentName}', 160)
 var _frontendContainerAppName = !empty(frontendContainerAppName) ? frontendContainerAppName : take('${abbreviations.appContainerApps}frontend-${environmentName}', 32)
-var _springAppsInstanceName = !empty(springAppsInstanceName) ? springAppsInstanceName : take(toLower('${abbreviations.springApps}${environmentName}'), 32)
-var _postgresFlexibleServerName = !empty(postgresFlexibleServerName) ? postgresFlexibleServerName : take(toLower('${abbreviations.dBforPostgreSQLServers}${environmentName}${resourceToken}'), 63)
+
+/* --------------------- Globally Unique Resource Names --------------------- */
+
+// 'cr' is 2 characters long, 'resourceToken' is 13 characters long, so, as the maximum length is 50 characters, the environment name can be maximum 35 characters long.
+// The 'take(..., 50)' function is used to ensure the name is not longer than 50 characters, even if it is not necessary.
+// The name can contains only alpha numeric characters and no hyphens. This is why 'alphaNumericEnvironmentName' is used instead of 'environmentName'.
+var _containerRegistryName = !empty(containerRegistryName) ? containerRegistryName : take('${abbreviations.containerRegistryRegistries}${take(alphaNumericEnvironmentName, 35)}${resourceToken}', 50)
+
+// 'spring-' is 7 characters long, 'resourceToken' is 13 characters long, there is one hyphen, so, as the maximum length is 32 characters, the environment name can be maximum 11 characters long.
+// The 'take(..., 32)' function is used to ensure the name is not longer than 32 characters, even if it is not necessary.
+// The name needs to be lower case, so  it is converted to lower case.
+var _springAppsInstanceName = !empty(springAppsInstanceName) ? springAppsInstanceName : take(toLower('${abbreviations.springApps}${take(environmentName, 11)}-${resourceToken}'), 32)
+
+// 'psql-' is 5 characters long, 'resourceToken' is 13 characters long, there is one hyphen, so, as the maximum length is 63 characters, the environment name can be maximum 44 characters long.
+// The 'take(..., 63)' function is used to ensure the name is not longer than 63 characters, even if it is not necessary.
+// The name needs to be lower case, so  it is converted to lower case.
+var _postgresFlexibleServerName = !empty(postgresFlexibleServerName) ? postgresFlexibleServerName : take(toLower('${abbreviations.dBforPostgreSQLServers}${take(environmentName, 44)}-${resourceToken}'), 63)
 
 /* -------------------------------------------------------------------------- */
 /*                                  RESOURCES                                 */
