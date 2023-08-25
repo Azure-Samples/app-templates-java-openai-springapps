@@ -25,14 +25,30 @@ export class AiNutritionAnalysis extends React.Component<AiNutritionAnalysisProp
   };
 
   componentDidMount(): void {
+    let responseOk: boolean = true;
     fetch(`${API_URL}/api/cart-items/ai-nutrition-analysis`)
-      .then((response) => response.json())
-      .then((data) => this.setState({
-        nutriscore: data.nutriscore,
-        explanation: data.explanation,
-        recommendation: data.recommendation,
-        status: Status.LOADED
-      }))
+      .then((response) => {
+        responseOk = response.ok;
+        return response.json()
+      })
+      .then((data) => {
+        if (!responseOk) {
+          this.setState({
+            nutriscore: '',
+            explanation: '',
+            recommendation: '',
+            status: Status.ERROR,
+            errorMessage: data.message,
+          });
+        } else {
+          this.setState({
+            nutriscore: data.nutriscore,
+            explanation: data.explanation,
+            recommendation: data.recommendation,
+            status: Status.LOADED
+          });
+        }
+      })
       .catch((error) => this.setState({
         nutriscore: '',
         explanation: '',

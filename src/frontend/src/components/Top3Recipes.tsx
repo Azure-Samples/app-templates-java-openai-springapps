@@ -28,12 +28,26 @@ export class Top3Recipes extends React.Component<RecipesProps, RecipesState> {
   };
 
   componentDidMount(): void {
+    let responseOk: boolean = true;
     fetch(`${API_URL}/api/cart-items/top-3-recipes`)
-      .then((response) => response.json())
-      .then((data) => this.setState({
-        recipes: data.recipes,
-        status: Status.LOADED
-      }))
+      .then((response) => {
+        responseOk = response.ok;
+        return response.json()
+      })
+      .then((data) => {
+        if (!responseOk) {
+          this.setState({
+            recipes: [] as Array<Recipe>,
+            status: Status.ERROR,
+            errorMessage: data.message
+          });
+        } else {
+          this.setState({
+            recipes: data.recipes,
+            status: Status.LOADED
+          });
+        }
+      })
       .catch((error) => this.setState({
         recipes: [] as Array<Recipe>,
         status: Status.ERROR,
@@ -57,6 +71,9 @@ export class Top3Recipes extends React.Component<RecipesProps, RecipesState> {
   }
 
   getHtmlForRecipes(): Array<JSX.Element> {
+    if (this.state === undefined || this.state.recipes === undefined || this.state.recipes.length === 0) {
+      return [<Card.Text key='no-recipes'>No recipes found</Card.Text>];
+    }
     return this.state.recipes.map((recipe) => this.getRecipeHtml(recipe));
   }
 
