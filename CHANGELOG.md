@@ -1,5 +1,21 @@
 ## AI Shopping Cart - App Template for Java, Azure OpenAI and Azure Spring Apps - Changelog
 
+<a name="1.0.1"></a>
+# 1.0.1 (2023-08-25)
+
+## What's Changed
+
+*Features*
+
+*Bug Fixes*
+
+* Fix Changelog link for v1.0.0 commit list by @pmalarme in https://github.com/Azure-Samples/app-templates-java-openai-springapps/pull/28
+* Fix the name of the spring apps instance to be globally unique. by @pmalarme in https://github.com/Azure-Samples/app-templates-java-openai-springapps/pull/31
+
+*Breaking Changes*
+
+**Full Changelog**: https://github.com/Azure-Samples/app-templates-java-openai-springapps/compare/v1.0.0...v1.0.1
+
 <a name="1.0.0"></a>
 # 1.0.0 (2023-08-04)
 
