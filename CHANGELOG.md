@@ -1,5 +1,20 @@
 ## AI Shopping Cart - App Template for Java, Azure OpenAI and Azure Spring Apps - Changelog
 
+<a name="1.1.0"></a>
+# 1.1.0 (2023-08-28)
+
+## What's Changed
+
+*Features*
+
+* Update the application to display the error message in the frontend by @pmalarme in https://github.com/Azure-Samples/app-templates-java-openai-springapps/pull/35
+
+*Bug Fixes*
+
+*Breaking Changes*
+
+**Full Changelog**: https://github.com/Azure-Samples/app-templates-java-openai-springapps/compare/v1.0.1...v1.1.0
+
 <a name="1.0.1"></a>
 # 1.0.1 (2023-08-25)
 
