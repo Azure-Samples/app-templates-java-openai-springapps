@@ -9,7 +9,8 @@
       "name": "Frontend",
       "command": "npm start",
       "request": "launch",
-      "cwd": "${workspaceFolder}/src/frontend"
+      "cwd": "${workspaceFolder}/src/frontend",
+      "preLaunchTask": "Restore all dependecies"
     },
     {
       "type": "java",

@@ -2,6 +2,17 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"type": "shell",
+			"label": "Restore all dependecies",
+			"detail": "azd restore",
+			"command": "azd restore",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "silent",
+				"panel": "shared"
+			}
+		},
+		{
 			"type": "npm",
 			"label": "Run Frontend",
 			"detail": "npm start",
@@ -11,7 +22,10 @@
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated"
-			}
+			},
+			"dependsOn": [
+				"Restore all dependecies"
+			]
 		},
 		{
 			"type": "shell",
