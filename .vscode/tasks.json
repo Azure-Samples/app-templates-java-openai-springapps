@@ -1,0 +1,52 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Restore all dependecies",
+			"detail": "azd restore",
+			"command": "azd restore",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "silent",
+				"panel": "shared"
+			}
+		},
+		{
+			"type": "npm",
+			"label": "Run Frontend",
+			"detail": "npm start",
+			"script": "start",
+			"path": "src/frontend",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			},
+			"dependsOn": [
+				"Restore all dependecies"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "Run AI Shopping Cart Service",
+			"command": "./mvnw spring-boot:run",
+			"options": {
+				"cwd": "${workspaceFolder}/src/ai-shopping-cart-service"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			}
+		},
+		{
+			"label": "Run All",
+			"dependsOn": [
+				"Run Frontend",
+				"Run AI Shopping Cart Service"
+			],
+			"problemMatcher": []
+		}
+	]
+}
