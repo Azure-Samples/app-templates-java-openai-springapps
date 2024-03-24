@@ -48,7 +48,7 @@ resource springApps 'Microsoft.AppPlatform/Spring@2023-05-01-preview' = {
   tags: tags
   sku: {
     name: 'S0'
-    tier: 'StandardGen2'
+    tier: 'Standard'
   }
   properties: {
     managedEnvironmentId: containerAppsEnvironment.id
